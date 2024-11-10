@@ -3,7 +3,8 @@
 //////////////////////////////////////////////////////////////////////
 
 function objectValues(object) {
-    // code
+    let newArray = Object.values(object);
+    return newArray;
 } 
 
 //////////////////////////////////////////////////////////////////////
@@ -11,7 +12,11 @@ function objectValues(object) {
 //////////////////////////////////////////////////////////////////////
 
 function keysToString(object) {
-
+    // console.log(object);
+    let newArray = Object.keys(object);
+    // console.log(newArray);
+    let newString = newArray.join(" ");
+    return newString;
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -19,7 +24,19 @@ function keysToString(object) {
 //////////////////////////////////////////////////////////////////////
 
 function valuesToString(object) {
-    
+    let newArray =  Object.values(object);
+    let newString = "";
+    // console.log(newArray);
+    for (let i = 0; i < newArray.length; i++){
+        // TABI you are v close here, but the problem seems to be the 
+        // added space on the last array element, so you just need 
+        // some logic to trim it.
+        if(typeof newArray[i] === "string" && newArray[i]){
+            newString += newArray[i] + " ";
+        }
+    }
+    console.log(newString);
+    return newString;
 }
 
 //////////////////////////////////////////////////////////////////////
