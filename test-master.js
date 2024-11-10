@@ -111,6 +111,10 @@
   
   
     // ##7
+    // Ah okay took me a bit. THIS isn't purely a global scope at all, it's specific to the scope where it's run.
+    // so the reason it's undefined each time is it's reacreated and always spec to the scope, so will always 
+    // appear undefined at start. 
+    
     QUnit.test("Variables created with var in a funtion are re-created each time", function(assert){
       function yay(){
         // if a global .counter exists...
@@ -122,13 +126,14 @@
           var counter = 10;
         }
       }
-  
+      
+      // console.log(this.counter);
       yay();
-      assert.equal(this.counter, "10");
+      assert.equal(this.counter, undefined);
       yay();
-      assert.equal(this.counter, "10");
+      assert.equal(this.counter, undefined);
       yay();
-      assert.equal(this.counter, "10");
+      assert.equal(this.counter, undefined);
     });
   
   
@@ -140,9 +145,10 @@
         return im_outside + im_inside;
       }
   
-      assert.equal(yay(), "???");
+      assert.equal(yay(), "alphaomega");
     });
   
+    //### 9
     QUnit.test("Functions retain outer scope references between calls.", function(assert){
       var im_outside = 13;
       function yay(){
@@ -150,11 +156,12 @@
       }
   
       yay();
-      assert.equal(im_outside, "???");
+      assert.equal(im_outside, 14);
       yay();
-      assert.equal(im_outside, "???");
+      assert.equal(im_outside, 15);
     });
-  
+
+    //### 10 
     QUnit.test("We can do goofy stuff with outer scope", function(assert){
   
       var hello = "greg";
@@ -165,13 +172,14 @@
       }
   
       yay();
-      assert.equal(name, "???");
+      assert.equal(name, "greg");
       yay();
-      assert.equal(name, "???");
+      assert.equal(name, "greggreg");
       yay();
-      assert.equal(name, "???");
+      assert.equal(name, "greggreggreg");
     });
   
+    // ### 11
     QUnit.test("We can pass functions to other functions and then run them.", function(assert){
       var im_outter = 10;
       function yay(){
@@ -182,10 +190,11 @@
         whatever();
       }
       something(yay);
-      assert.equal(im_outter, "???");
+      assert.equal(im_outter, "40");
   
     });
   
+    // ###12
     QUnit.test("We can get crazy with returns.", function(assert){
       function yay(){
         return " is dog";
@@ -193,7 +202,7 @@
       function foo(whatever){
         return "hello, this" + whatever();
       }
-      assert.equal(foo(yay), "???");
+      assert.equal(foo(yay), "hello, this is dog");
     });
   
   })();
