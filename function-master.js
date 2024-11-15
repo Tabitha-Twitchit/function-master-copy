@@ -190,13 +190,22 @@ function isFriend(name, object) {
 //////////////////////////////////////////////////////////////////////
 
 function nonFriends(name, array) {
+//    console.log(name);
+//    console.log(array);
    let outputList = [];
-    
-//    for (let i = 0; i < array.length; i++){
 
-//    }
-   
-console.log(outputList);
+//    loop the array arg
+   for(let i = 0; i < array.length; i++){
+    // do further actions for every object who IS NOT our name
+    if(array[i].name !== name){
+        // console.log("check for jimmy");
+        if(!array[i].friends.includes(name)){
+            outputList.push(array[i]["name"]);
+        }
+    }
+   }
+
+// console.log(outputList);
 return outputList;
 }
 
@@ -205,7 +214,17 @@ return outputList;
 //////////////////////////////////////////////////////////////////////
 
 function updateObject(object, key, value) {
+// console.log(object);
+// console.log(key);
+// console.log(value);
 
+if (Object.keys(object).includes(key)){
+    object[key] = value;
+} else if (!Object.keys(object).includes(key)){
+    object[key] = value;
+}
+// console.log(object);
+return object;
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -213,7 +232,20 @@ function updateObject(object, key, value) {
 //////////////////////////////////////////////////////////////////////
 
 function removeProperties(object, array) {
+// console.log(object);
+// console.log(array);
 
+// loop the array--we only need to loop as many things to delete
+// as we have, NOT everything in the obj.
+for(let i = 0; i < array.length; i++){
+    // create a temp var to manage unwieldy bracket syntax
+    let keyToDel = array[i];
+    // look in obj keys for current array item (saved off on prev line)
+    if(Object.keys(object).includes(keyToDel)){
+        // if found, delete it.  
+        delete object[keyToDel];
+    }
+}
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -221,7 +253,12 @@ function removeProperties(object, array) {
 //////////////////////////////////////////////////////////////////////
 
 function dedup(array) {
+    // console.log(array);
 
+    // uses the spread operator to return a new array containing a Set
+    // data structure. Sets can only be comprised of unique values. The
+    // Set derives its values in this case from the array argument.
+    return [...new Set(array)];
 }
 
 //////////////////////////////////////////////////////////////////////
