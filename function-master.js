@@ -31,11 +31,17 @@ function valuesToString(object) {
         // TABI you are v close here, but the problem seems to be the 
         // added space on the last array element, so you just need 
         // some logic to trim it.
-        if(typeof newArray[i] === "string" && newArray[i]){
+        if(typeof newArray[i] === "string" /*&& newArray[i] !== newArray.length -1*/){
             newString += newArray[i] + " ";
-        }
+        } 
     }
-    console.log(newString);
+    // the way slice works here is that it reassigns newstring to itself
+    // with the method applied. The method returns a string beggining char
+    // 0 index, and continuing to the end -1 (we are choosing what to 
+    // include not cut away and dispose). IDK you could -index strings like this, curious. 
+    newString = newString.slice(0, -1);
+    
+    // console.log(newString);
     return newString;
 }
 
@@ -44,7 +50,11 @@ function valuesToString(object) {
 //////////////////////////////////////////////////////////////////////
 
 function arrayOrObject(collection) {
-    
+    if(Array.isArray(collection)){
+        return "array";
+    } else {
+        return "object";
+    }
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -53,14 +63,27 @@ function arrayOrObject(collection) {
 
 function capitalizeWord(string) {
     
-}
-
-//////////////////////////////////////////////////////////////////////
-// Function 6 - Capitalize All Words /////////////////////////////////
-//////////////////////////////////////////////////////////////////////
-
-function capitalizeAllWords(string) {
+    // capitalize the 0 index char concatenated with the rest of string from 1 index onward
+    return string[0].toUpperCase() + string.slice(1);
     
+    ;}
+    
+    //////////////////////////////////////////////////////////////////////
+    // Function 6 - Capitalize All Words /////////////////////////////////
+    //////////////////////////////////////////////////////////////////////
+    
+    function capitalizeAllWords(string) {
+        // create a temp array of the string words split individually 
+        let tempArray = string.split(" ");
+        // maybe unnecessary but create a second array where each are capped
+        // using map to apply methods to all elements, element passed in as
+        // arg for the syntax to work.  
+        const cappedArray = tempArray.map(element => {
+            return element[0].toUpperCase() + element.slice(1);
+        });
+    // rejoin capped array elements into string
+        string = cappedArray.join(" ");
+        return string;
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -68,7 +91,19 @@ function capitalizeAllWords(string) {
 //////////////////////////////////////////////////////////////////////
 
 function welcomeMessage(object) {
+    // console.log(object);
 
+    // stupidly the test insists we know better than the user that their
+    // name should be capitalized. SO we reassign the value of their name
+    // key to title case. You can do this via mutating the obj:
+    // object.name = object.name[0].toUpperCase() + object.name.slice(1);
+    
+    // Or even better we can do this non destructively byt creating a new temp var
+    let titleCased = object.name[0].toUpperCase() + object.name.slice(1);
+    
+    // and return it instead.
+    // console.log("Welcome " + titleCased + "!");
+    return "Welcome " + titleCased + "!";
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -76,7 +111,18 @@ function welcomeMessage(object) {
 //////////////////////////////////////////////////////////////////////
 
 function profileInfo(object) {
+// console.log(object);
 
+// HELLA FUN! In an effort to keep things dry-er, I wrote a function, 
+// which I should have done before, seeing how many of these use title case,
+// to just run on my strings at the return.
+function titleCase(string){
+    string  = string[0].toUpperCase() + string.slice(1);
+    return string;
+}
+
+// console.log(titleCase(object.name) + " is a " + titleCase(object.species));
+return titleCase(object.name) + " is a " + titleCase(object.species);
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -84,7 +130,13 @@ function profileInfo(object) {
 //////////////////////////////////////////////////////////////////////
 
 function maybeNoises(object) {
-
+    // console.log(object);
+    if(object.noises && object.noises.length > 0){
+        // console.log(object.noises.join(" "));
+        return object.noises.join(" ");
+    } else {
+        return "there are no noises"
+    }
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -92,6 +144,14 @@ function maybeNoises(object) {
 //////////////////////////////////////////////////////////////////////
 
 function hasWord(string, word) {
+    let searchArray = string.split(" ");
+    // console.log(searchArray);
+    for (let i = 0; i < searchArray.length; i++){
+        if(searchArray[i] === word){
+            return true;
+        }
+    }
+    return false;
 
 }
 
@@ -100,7 +160,8 @@ function hasWord(string, word) {
 //////////////////////////////////////////////////////////////////////
 
 function addFriend (name, object) {
-
+    object.friends.push(name);
+    return object
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -108,7 +169,20 @@ function addFriend (name, object) {
 //////////////////////////////////////////////////////////////////////
 
 function isFriend(name, object) {
-
+    // console.log(name);
+    // console.log(object);
+    
+    // WOW ok, loving learning more methods
+    // So looking ahead at the tests I can see the final test includes
+    // a sitch where there is NO friends array, so building a truthy
+    // test into this, along with applying a method to the array that 
+    // looks for our value. 
+    if(object.friends && object.friends.includes(name)){
+        return true;
+    } else {
+        // if not truthy Or the name isn't present (all other cases)...
+        return false;
+    }
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -116,7 +190,14 @@ function isFriend(name, object) {
 //////////////////////////////////////////////////////////////////////
 
 function nonFriends(name, array) {
+   let outputList = [];
+    
+//    for (let i = 0; i < array.length; i++){
 
+//    }
+   
+console.log(outputList);
+return outputList;
 }
 
 //////////////////////////////////////////////////////////////////////
